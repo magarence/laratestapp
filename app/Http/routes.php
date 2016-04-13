@@ -1,9 +1,10 @@
 <?php
 
 //Route::group(['middleware' => ['web']], function () {
-	Route::get('/', function () {
-	    return view('home');
-	})->name('home');
+	Route::get('/', [
+		'uses' => 'NiceActionController@getHome',
+		'as' => 'home'
+	]);
 
 	Route::group(['prefix' => 'do'], function() {
 
@@ -12,9 +13,9 @@
 				'as' => 'niceaction'
 			]);
 
-		Route::post('/', [
-			'uses' => 'NiceActionController@postNiceAction',
-			'as' => 'benice'
+		Route::post('/add_action', [
+			'uses' => 'NiceActionController@postInsertNiceAction',
+			'as' => 'add_action'
 		]);
 	});
 //});
