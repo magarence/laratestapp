@@ -1,21 +1,15 @@
 <?php
 
 //Route::group(['middleware' => ['web']], function () {
-	Route::get('/', [
-		'uses' => 'NiceActionController@getHome',
-		'as' => 'home'
+
+Route::get('/', [
+	'uses' => 'QuoteController@getIndex',
+	'as' => 'index'
 	]);
 
-	Route::group(['prefix' => 'do'], function() {
+Route::post('/new', [
+	'uses' => 'QuoteController@postQuote',
+	'as' => 'create'
+]);
 
-		Route::get('/{action}/{name?}', [
-				'uses' => 'NiceActionController@getNiceAction',
-				'as' => 'niceaction'
-			]);
-
-		Route::post('/add_action', [
-			'uses' => 'NiceActionController@postInsertNiceAction',
-			'as' => 'add_action'
-		]);
-	});
 //});
