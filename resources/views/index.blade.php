@@ -30,7 +30,7 @@
 			<article class="quote">
 				<div class="delete"><a href="{{ route('delete', ['quote_id' => $quotes[$i]->id]) }}">x</a></div>
 				{{ $quotes[$i]->quote }}
-				<div class="info">Created by <a href="{{ $quotes[$i]->author->name }}">{{ $quotes[$i]->author->name }}</a> at {{ $quotes[$i]->created_at }}</div>
+				<div class="info">Created by <a href="{{ route('index', ['author' => $quotes[$i]->author->name]) }}">{{ $quotes[$i]->author->name }}</a> at {{ $quotes[$i]->created_at }}</div>
 			</article>
 		@endfor
 		<div class="pagination">
