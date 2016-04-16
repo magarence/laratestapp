@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Author;
 use App\Quote;
 use Illuminate\Http\Request;
+use App\Events\QuoteCreated;
+use Illuminate\Support\Facades\Event;
 
 /**
 *
@@ -30,7 +32,8 @@ class QuoteController extends Controller
 		
 		$this->validate($request, [
 			'author' => 'required|max:60|alpha',
-			'quote' => 'required|max:500'
+			'quote' => 'required|max:500',
+			'email' => 'required|email'
 			]);
 
 		$authorText = ucfirst($request['author']);
@@ -40,6 +43,7 @@ class QuoteController extends Controller
 		if (!$author) {
 			$author = new Author();
 			$author->name = $authorText;
+			$author->email = $request['email'];
 			$author->save();
 		}
 
@@ -47,6 +51,8 @@ class QuoteController extends Controller
 		$quote = new Quote();
 		$quote->quote = $quoteText;
 		$author->quotes()->save($quote);
+
+		Event::fire(new QuoteCreated($author));
 
 		return redirect()->route('index')->with([
 			'success' => 'Quote saved!'
@@ -68,4 +74,6 @@ class QuoteController extends Controller
 		$msg = $author_deleted ? 'Quote and author deleted!' : 'Quote deleted!';
 		return redirect()->route('index')->with(['success' => $msg]);
 	}
+
+	
 }

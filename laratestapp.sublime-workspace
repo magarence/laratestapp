@@ -4,6 +4,162 @@
 		"selected_items":
 		[
 			[
+				"Route",
+				"Route::any	Basic Route with Closure."
+			],
+			[
+				"Rout",
+				"Route::any	Basic Route with Closure."
+			],
+			[
+				"isn",
+				"is_null"
+			],
+			[
+				"auth",
+				"author_deleted"
+			],
+			[
+				"Quote",
+				"QuoteController@postQuote"
+			],
+			[
+				"quote",
+				"quotes"
+			],
+			[
+				"use",
+				"uses"
+			],
+			[
+				"quo",
+				"quotes	(index.blade.php)"
+			],
+			[
+				"au",
+				"author"
+			],
+			[
+				"ff",
+				"ff6b6a"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"bord",
+				"border"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"cur",
+				"cursor"
+			],
+			[
+				"bac",
+				"background-color"
+			],
+			[
+				"sans",
+				"sans-serif"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"marig",
+				"margin-right"
+			],
+			[
+				"marign",
+				"margin-left"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"text",
+				"textarea	Tag"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"logged",
+				"logged_actions"
+			],
+			[
+				"hug",
+				"hug"
+			],
+			[
+				"nice_ac",
+				"nice_actions	(NiceActionSeeder.php)"
+			],
+			[
+				"action",
+				"actions"
+			],
+			[
+				"nice_actio",
+				"nice_action_logs"
+			],
+			[
+				"categorie",
+				"categories_nice_actions	(2016_04_13_203532_categories_nice_actions.php)"
+			],
+			[
+				"nice_",
+				"nice_actions	(Category.php)"
+			],
+			[
+				"cate",
+				"category1"
+			],
+			[
+				"belongs",
+				"belongsToMany	(Category.php)"
+			],
+			[
+				"nice",
+				"NiceActionLog"
+			],
+			[
+				"Nice",
+				"NiceAction"
+			],
+			[
+				"App",
+				"App\\NiceAction	(NiceActionLog.php)"
+			],
+			[
+				"actio",
+				"action"
+			],
+			[
+				"route",
+				"Route"
+			],
+			[
+				"greet",
+				"greet"
+			],
+			[
+				"req",
+				"request"
+			],
+			[
+				"rout",
+				"Route"
+			],
+			[
 				"mysq",
 				"mysql_connect"
 			],
@@ -20,10 +176,37 @@
 	"buffers":
 	[
 		{
-			"file": "public/index.php",
+			"file": "app/Http/routes.php",
 			"settings":
 			{
-				"buffer_size": 1786,
+				"buffer_size": 346,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse App\\Author;\nuse App\\Quote;\nuse Illuminate\\Http\\Request;\n\n/**\n*\n*/\nclass QuoteController extends Controller\n{\n\n	public function getIndex($author = null)\n	{\n		if (!is_null($author)) {\n			$quote_author = Author::where('name', $author)->first();\n			if ($quote_author) {\n				$quotes = $quote_author->quotes()->orderBy('created_at', 'desc')->paginate(6);\n			}\n		} else {\n			$quotes = Quote::orderBy('created_at', 'desc')->paginate(6);\n		}\n		return view('index', ['quotes' => $quotes]);\n	}\n\n	public function postQuote(Request $request)\n	{\n		\n		$this->validate($request, [\n			'author' => 'required|max:60|alpha',\n			'quote' => 'required|max:500'\n			]);\n\n		$authorText = ucfirst($request['author']);\n		$quoteText = $request['quote'];\n\n		$author = Author::where('name', $authorText)->first();\n		if (!$author) {\n			$author = new Author();\n			$author->name = $authorText;\n			$author->save();\n		}\n\n\n		$quote = new Quote();\n		$quote->quote = $quoteText;\n		$author->quotes()->save($quote);\n\n		return redirect()->route('index')->with([\n			'success' => 'Quote saved!'\n			]);\n	}\n\n	public function getDeleteQuote($quote_id)\n	{\n		$quote = Quote::find($quote_id);\n		$author_deleted = false;\n\n		if(count($quote->author->quotes) === 1) {\n			$quote->author->delete();\n			$author_deleted = true;\n		}\n\n		$quote->delete();\n\n		$msg = $author_deleted ? 'Quote and author deleted!' : 'Quote deleted!';\n		return redirect()->route('index')->with(['success' => $msg]);\n	}\n\n	\n}",
+			"file": "app/Http/Controllers/QuoteController.php",
+			"file_size": 1554,
+			"file_write_time": 131051536134781338,
+			"settings":
+			{
+				"buffer_size": 1487,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "resources/views/index.blade.php",
+			"settings":
+			{
+				"buffer_size": 2071,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/lullaby/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 166,
 				"line_ending": "Unix"
 			}
 		}
@@ -35,10 +218,46 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 357.0,
-		"last_filter": "instal",
+		"height": 392.0,
+		"last_filter": "ss",
 		"selected_items":
 		[
+			[
+				"ss",
+				"Set Syntax: PHP"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"ssla",
+				"Set Syntax: Laravel Blade"
+			],
+			[
+				"Snippet: ",
+				"Snippet: Blade @foreach"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"ssp",
+				"Set Syntax: PHP"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"packag",
+				"Package Control: List Packages"
+			],
 			[
 				"instal",
 				"Package Control: Install Package"
@@ -52,24 +271,8 @@
 				"Gist: Add File to Gist"
 			],
 			[
-				"install",
-				"Package Control: Install Package"
-			],
-			[
-				"pack",
-				"Package Control: Remove Package"
-			],
-			[
 				"package",
 				"Package Control: List Packages"
-			],
-			[
-				"ssp",
-				"Set Syntax: PHP"
-			],
-			[
-				"ss",
-				"Set Syntax: PHP"
 			],
 			[
 				"rever",
@@ -100,10 +303,6 @@
 				"Goto Documentation"
 			],
 			[
-				"insta",
-				"Package Control: Install Package"
-			],
-			[
 				"PHPUnit",
 				"Set Syntax: PHPUnit TextRunner"
 			],
@@ -116,7 +315,7 @@
 				"Snippet: Lorem ipsum"
 			]
 		],
-		"width": 512.0
+		"width": 472.0
 	},
 	"console":
 	{
@@ -145,10 +344,51 @@
 	"expanded_folders":
 	[
 		"/C/xampp/htdocs/laratestapp",
-		"/C/xampp/htdocs/laratestapp/public"
+		"/C/xampp/htdocs/laratestapp/app",
+		"/C/xampp/htdocs/laratestapp/app/Http",
+		"/C/xampp/htdocs/laratestapp/app/Http/Controllers",
+		"/C/xampp/htdocs/laratestapp/database",
+		"/C/xampp/htdocs/laratestapp/database/migrations",
+		"/C/xampp/htdocs/laratestapp/database/seeds",
+		"/C/xampp/htdocs/laratestapp/public",
+		"/C/xampp/htdocs/laratestapp/public/src",
+		"/C/xampp/htdocs/laratestapp/public/src/css",
+		"/C/xampp/htdocs/laratestapp/resources",
+		"/C/xampp/htdocs/laratestapp/resources/views",
+		"/C/xampp/htdocs/laratestapp/resources/views/includes",
+		"/C/xampp/htdocs/laratestapp/resources/views/layouts"
 	],
 	"file_history":
 	[
+		"/C/Users/lullaby/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/xampp/htdocs/laratestapp/public/index.php",
+		"/C/xampp/htdocs/laratestapp/resources/views/index.blade.php",
+		"/C/xampp/htdocs/laratestapp/public/src/css/main.css",
+		"/C/xampp/htdocs/laratestapp/app/Quote.php",
+		"/C/xampp/htdocs/laratestapp/resources/views/includes/header.blade.php",
+		"/C/xampp/htdocs/laratestapp/app/Author.php",
+		"/C/xampp/htdocs/laratestapp/database/migrations/2016_04_14_213030_create_authors_table.php",
+		"/C/xampp/htdocs/laratestapp/database/migrations/2016_04_14_213048_create_quotes_table.php",
+		"/C/xampp/htdocs/laratestapp/database/seeds/DatabaseSeeder.php",
+		"/C/xampp/htdocs/laratestapp/database/seeds/NiceActionSeeder.php",
+		"/C/xampp/htdocs/laratestapp/resources/views/actions/nice.blade.php",
+		"/C/xampp/htdocs/laratestapp/app/NiceActionLog.php",
+		"/C/xampp/htdocs/laratestapp/app/Http/Controllers/NiceActionController.php",
+		"/C/xampp/htdocs/laratestapp/app/Http/routes.php",
+		"/C/xampp/htdocs/laratestapp/app/NiceAction.php",
+		"/C/xampp/htdocs/laratestapp/app/Category.php",
+		"/C/xampp/htdocs/laratestapp/resources/views/home.blade.php",
+		"/C/xampp/htdocs/laratestapp/database/migrations/2016_04_13_185637_create_nice_actions_table.php",
+		"/C/xampp/htdocs/laratestapp/resources/views/layouts/master.blade.php",
+		"/C/xampp/htdocs/laratestapp/database/migrations/2016_04_13_203532_categories_nice_actions.php",
+		"/C/xampp/htdocs/laratestapp/database/migrations/2016_04_13_203504_create_categories_table.php",
+		"/C/xampp/htdocs/laratestapp/database/migrations/2016_04_13_201739_create_nice_action_logs_table.php",
+		"/C/xampp/htdocs/laratestapp/resources/views/actions/greet.blade.php",
+		"/C/xampp/htdocs/laratestapp/resources/views/actions/kiss.blade.php",
+		"/C/xampp/htdocs/laratestapp/resources/views/actions/hug.blade.php",
+		"/C/xampp/htdocs/laratestapp/resources/views/welcome.blade.php",
+		"/C/xampp/htdocs/laratestapp/.env",
+		"/C/xampp/htdocs/laratestapp/app/Http/Controllers/Controller.php",
 		"/C/dev/php/git testing/test.php",
 		"/C/Users/lullaby/AppData/Roaming/Composer/composer.json",
 		"/C/dev/php/git testing/test2.txt",
@@ -184,6 +424,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"&quot;",
+			"category1",
+			"table",
+			"nice_actions",
+			"void",
+			"home",
 			"izmene",
 			"izbacene",
 			"izmena",
@@ -212,29 +458,116 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "public/index.php",
+					"file": "app/Http/routes.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1786,
+						"buffer_size": 346,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								340,
+								340
 							]
 						],
 						"settings":
 						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/Http/Controllers/QuoteController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1487,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1485,
+								1485
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
 							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 449.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "resources/views/index.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2071,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								75,
+								75
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Laravel Blade Highlighter/blade.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/lullaby/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 166,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								122,
+								122
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -295,6 +628,42 @@
 		"selected_items":
 		[
 			[
+				"main.",
+				"public\\src\\css\\main.css"
+			],
+			[
+				"rou",
+				"app\\Http\\routes.php"
+			],
+			[
+				"nice",
+				"app\\Http\\Controllers\\NiceActionController.php"
+			],
+			[
+				"home",
+				"resources\\views\\home.blade.php"
+			],
+			[
+				"",
+				"app\\Http\\Controllers\\NiceActionController.php"
+			],
+			[
+				"nicea",
+				"app\\Http\\Controllers\\NiceActionController.php"
+			],
+			[
+				"hom",
+				"resources\\views\\home.blade.php"
+			],
+			[
+				"niceco",
+				"app\\Http\\Controllers\\NiceActionController.php"
+			],
+			[
+				"niceactionc",
+				"app\\Http\\Controllers\\NiceActionController.php"
+			],
+			[
 				"te",
 				"test.txt"
 			]
@@ -327,7 +696,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150.0,
+	"side_bar_width": 208.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
