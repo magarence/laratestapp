@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Author;
 
 /**
 * 
@@ -15,9 +16,19 @@ class AdminController extends Controller
 		return view('admin.login');
 	}
 
+	public function getLogout()
+	{
+		Auth::logout();
+		return redirect()->route('index');
+	}
+
 	public function getDashboard()
 	{
-		return view('admin.dashboard');
+		if (!Auth::check()) {
+			return redirect()->back();
+		}
+		$authors = Author::all();
+		return view('admin.dashboard', ['authors' => $authors]);
 	}
 
 	public function postLogin(Request $request)
